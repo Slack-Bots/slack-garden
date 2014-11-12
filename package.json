@@ -18,7 +18,8 @@
     "hubot-slack": "~2.2.0",
     "hubot-redis-brain": "0.0.2",
     "hubot-scripts": "~2.5.16",
-    "hubot": "~2.9.3"
+    "hubot": "~2.9.3",
+    "cheerio": "~0.18.0"
   },
   "engines": {
     "node": "0.10.x"
