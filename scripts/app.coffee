@@ -4,7 +4,7 @@ fs           = require 'fs'
 cheerio      = require 'cheerio'
 cron         = require('cron').CronJob
 dayInfoArray = []
-baseInfoObj = {}
+baseInfoObj  = {}
 
 class dayInfo
   constructor:(day) ->
@@ -63,7 +63,6 @@ class accessApi
       base.calc()
 
 module.exports = (robot) ->
-
   date  = new Date
   today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
   api   = new accessApi robot
