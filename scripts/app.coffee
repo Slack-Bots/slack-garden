@@ -58,6 +58,9 @@ class accessApi
       $('svg > g > g > rect').each(()->
         day = $(@)
         dayInfoArray.push(new dayInfo(day))
+        console.log "-----------------date-------------------"
+        console.log day.attr 'data-date'
+        console.log "----------------------------------------"
       )
       base = new baseInfo()
       base.calc()
@@ -82,7 +85,7 @@ module.exports = (robot) ->
   new cron '* * * * * *', () =>
     robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
   ###
-  
+
   robot.respond /info$/i, (msg) ->
     msg.send baseInfoObj.all, " ", baseInfoObj.longestStreak, " ", baseInfoObj.currentStreak
 
