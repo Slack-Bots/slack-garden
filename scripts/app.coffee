@@ -55,10 +55,14 @@ class accessApi
     .get() (err, res, body) ->
       $ = cheerio.load body
       dayInfoArray = []
+      #cnt = 0 # debug
       $('svg > g > g > rect').each(()->
         day = $(@)
         dayInfoArray.push(new dayInfo(day))
+        #console.log day.attr 'data-date'
+        #cnt++
       )
+      #console.log "cnt: ",cnt
       base = new baseInfo()
       base.calc()
 
@@ -82,5 +86,7 @@ module.exports = (robot) ->
 
   robot.respond /info$/i, (msg) ->
     msg.send "Year of contributions: #{baseInfoObj.all}\nLongest streak: #{baseInfoObj.longestStreak}\nCurrent streak: #{baseInfoObj.currentStreak}"
+
   robot.respond /reload$/i, (msg) ->
     api.parseContributions()
+    # return complete message
