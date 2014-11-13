@@ -3,8 +3,9 @@
 async        = require 'async'
 fs           = require 'fs'
 cheerio      = require 'cheerio'
+cron         = require('cron').CronJob
 dayInfoArray = []
-baseInfoObj = {}
+baseInfoObj  = {}
 
 class dayInfo
   constructor:(day) ->
@@ -63,11 +64,23 @@ class accessApi
       base.calc()
 
 module.exports = (robot) ->
-
   date  = new Date
   today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
   api   = new accessApi robot
   api.parseContributions()
+
+  # notification
+  robot.enter (msg)->
+    new cron
+      cronTime: "* * * * * *"
+      start: true
+      timeZone: "Asia/Tokyo"
+      onTick: ->
+        robot.send {room: "#bot-debug"}, "test1"
+        msg.send {room: "#bot-debug"}, "test2" 
+
+  new cron '* * * * * *', () =>
+    robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
 
   robot.respond /info$/i, (msg) ->
     msg.send baseInfoObj.all, " ", baseInfoObj.longestStreak, " ", baseInfoObj.currentStreak
