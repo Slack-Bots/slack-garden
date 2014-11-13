@@ -84,10 +84,11 @@ module.exports = (robot) ->
         robot.send {room: "#bot-debug"}, "test1"
         msg.send {room: "#bot-debug"}, "test2" 
   
-  ###
-  new cron '* * * * * *', () =>
-    robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
-  ###
+  
+  new cron '5 * * * * *', () =>
+    robot.send {room: "#bot-debug"}, "test3"
+  , null, true, "Asia/Tokyo"
+  
 
   robot.respond /info$/i, (msg) ->
     msg.send "Year of contributions: #{baseInfoObj.all}\nLongest streak: #{baseInfoObj.longestStreak}\nCurrent streak: #{baseInfoObj.currentStreak}"
