@@ -72,23 +72,17 @@ module.exports = (robot) ->
   api   = new accessApi robot
   api.parseContributions()
 
-  # notification
+  # notification 
+  # debug
+  # new cron '* * * * * *', () =>
+  #   robot.send {room: "#bot-debug"}, "test3"
+  # , null, true, "Asia/Tokyo"
   
-  
-  robot.enter (msg)->
-    new cron
-      cronTime: '10 * * * * *'
-      start: true
-      timeZone: "Asia/Tokyo"
-      onTick: ->
-        robot.send {room: "#bot-debug"}, "test1"
-        msg.send {room: "#bot-debug"}, "test2" 
-  
-  
-  new cron '5 * * * * *', () =>
-    robot.send {room: "#bot-debug"}, "test3"
-  , null, true, "Asia/Tokyo"
-  
+  new cron '* * 21,23 * * *', () =>
+      date  = new Date
+      today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
+    robot.send {room: '#bot-debug'}, "debug #{today}"
+  , null, true, 'Asia/Tokyo'
 
   robot.respond /info$/i, (msg) ->
     msg.send "Year of contributions: #{baseInfoObj.all}\nLongest streak: #{baseInfoObj.longestStreak}\nCurrent streak: #{baseInfoObj.currentStreak}"
