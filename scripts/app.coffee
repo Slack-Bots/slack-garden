@@ -78,9 +78,9 @@ module.exports = (robot) ->
   #   robot.send {room: "#bot-debug"}, "test3"
   # , null, true, "Asia/Tokyo"
   
-  new cron '* * 21,23 * * *', () =>
-      date  = new Date
-      today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
+  new cron '00 00 21,23 * * *', () =>
+    date  = new Date
+    today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
     robot.send {room: '#bot-debug'}, "debug #{today}"
   , null, true, 'Asia/Tokyo'
 
