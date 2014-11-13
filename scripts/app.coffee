@@ -1,6 +1,5 @@
 'use strict'
 
-async        = require 'async'
 fs           = require 'fs'
 cheerio      = require 'cheerio'
 cron         = require('cron').CronJob
