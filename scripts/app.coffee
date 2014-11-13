@@ -69,6 +69,21 @@ module.exports = (robot) ->
   api   = new accessApi robot
   api.parseContributions()
 
+<<<<<<< HEAD
+=======
+  # notification 
+  # debug
+  # new cron '* * * * * *', () =>
+  #   robot.send {room: "#bot-debug"}, "test3"
+  # , null, true, "Asia/Tokyo"
+  
+  new cron '00 00 21,23 * * *', () =>
+    date  = new Date
+    today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
+    robot.send {room: '#bot-debug'}, "debug #{today}"
+  , null, true, 'Asia/Tokyo'
+
+>>>>>>> 7e7c372... change time
   robot.respond /info$/i, (msg) ->
     msg.send baseInfoObj.all, " ", baseInfoObj.longestStreak, " ", baseInfoObj.currentStreak
 
