@@ -74,15 +74,16 @@ module.exports = (robot) ->
 
   # notification
   
+  
   robot.enter (msg)->
     new cron
-      cronTime: "* * * * * *"
+      cronTime: '10 * * * * *'
       start: true
       timeZone: "Asia/Tokyo"
       onTick: ->
         robot.send {room: "#bot-debug"}, "test1"
         msg.send {room: "#bot-debug"}, "test2" 
-
+  
   ###
   new cron '* * * * * *', () =>
     robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
