@@ -69,6 +69,7 @@ module.exports = (robot) ->
   api.parseContributions()
 
   # notification
+  ###
   robot.enter (msg)->
     new cron
       cronTime: "* * * * * *"
@@ -80,7 +81,8 @@ module.exports = (robot) ->
 
   new cron '* * * * * *', () =>
     robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
-
+  ###
+  
   robot.respond /info$/i, (msg) ->
     msg.send baseInfoObj.all, " ", baseInfoObj.longestStreak, " ", baseInfoObj.currentStreak
 
