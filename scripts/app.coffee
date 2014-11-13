@@ -1,8 +1,8 @@
 'use strict'
 
-async        = require 'async'
 fs           = require 'fs'
 cheerio      = require 'cheerio'
+cron         = require('cron').CronJob
 dayInfoArray = []
 baseInfoObj = {}
 
@@ -69,8 +69,6 @@ module.exports = (robot) ->
   api   = new accessApi robot
   api.parseContributions()
 
-<<<<<<< HEAD
-=======
   # notification 
   # debug
   # new cron '* * * * * *', () =>
@@ -83,9 +81,7 @@ module.exports = (robot) ->
     robot.send {room: '#bot-debug'}, "debug #{today}"
   , null, true, 'Asia/Tokyo'
 
->>>>>>> 7e7c372... change time
   robot.respond /info$/i, (msg) ->
-    msg.send baseInfoObj.all, " ", baseInfoObj.longestStreak, " ", baseInfoObj.currentStreak
-
+    msg.send "Year of contributions: #{baseInfoObj.all}\nLongest streak: #{baseInfoObj.longestStreak}\nCurrent streak: #{baseInfoObj.currentStreak}"
   robot.respond /reload$/i, (msg) ->
     api.parseContributions()
