@@ -73,7 +73,7 @@ module.exports = (robot) ->
   api.parseContributions()
 
   # notification
-  ###
+  
   robot.enter (msg)->
     new cron
       cronTime: "* * * * * *"
@@ -83,6 +83,7 @@ module.exports = (robot) ->
         robot.send {room: "#bot-debug"}, "test1"
         msg.send {room: "#bot-debug"}, "test2" 
 
+  ###
   new cron '* * * * * *', () =>
     robot.send {room: "#bot-debug"}, "test3", null, true, "Asia/Tokyo"
   ###
@@ -92,3 +93,4 @@ module.exports = (robot) ->
 
   robot.respond /reload$/i, (msg) ->
     api.parseContributions()
+    # return complete message
