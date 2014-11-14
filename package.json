@@ -21,7 +21,8 @@
     "hubot-shipit": "~0.1.1",
     "hubot-slack": "~2.2.0",
     "hubot-youtube": "~0.1.2",
-    "time": "~0.11.0"
+    "time": "~0.11.0",
+    "async": "~0.9.0"
   },
   "engines": {
     "node": "0.10.x"
