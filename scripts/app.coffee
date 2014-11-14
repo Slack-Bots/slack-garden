@@ -80,7 +80,10 @@ module.exports = (robot) ->
   # notification   
   new cron '00 00 3,15,21,23 * * *', () =>
     parseContributions(robot, ()->
-      if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is 0
+      # if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is 0
+      #   robot.send {room: '#bot-debug'},  "Please grow grass :("
+      # test
+      if dayInfoArray[0].getDayData().dateCnt is 0
         robot.send {room: '#bot-debug'},  "Please grow grass :("
     )
   , null, true, 'Asia/Tokyo'
