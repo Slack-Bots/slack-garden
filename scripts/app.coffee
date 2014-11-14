@@ -62,36 +62,94 @@ parseContributions = (robot,mainCallBack) ->
         baseObj.longestStreak = Math.max.apply null, LongestStreakArray
         baseInfoObj = baseObj
         callback()
-    ],()->
+    ], () ->
       mainCallBack()
     )
 
+# trend of this week
+trendThisWeek = (mainCallBack) ->
+  # emoji list
+  # less 🔥(:fire:) -> 🌱(:seedling:) -> 🌴(:palm_tree:) -> 🌼(:blossom:) -> 🌺(:hibiscus:) more
+  ### e.g
+  ---  2014-11-09 - 2014-11-15  ---  
+  09 🌱🌱🌱🌱     (+3)
+  10 🌱     (-2)
+  11 🌱🌱🌱🌱🌱     (-7)
+  12 🌱🌱🌱🌱🌱🌴🌴     (-6)
+  13 🌱🌱🌱🌱🌱🌴🌴🌴🌴🌴🌼🌼🌼🌼🌼🌺🌺🌺     (+15)
+  14 🌱🌱     (-6)
+  15 🌱🌱🌱🌱🌱     (-2)
+  ### 
 
-contributionsCalendar = () ->
+  message = ""
+  async.waterfall( [
+    (callback) ->
+      len = dayInfoArray.length
+      message += ">>>   #{dayInfoArray[len-7].getDayData().date} - #{dayInfoArray[len-1].getDayData().date}  (difference with last week)\n"
+      trendLastWeek = () ->
+        diff = ~~dayInfoArray[i].getDayData().dateCnt - ~~dayInfoArray[i-7].getDayData().dateCnt
+        if diff > 0
+          diff = '+' + diff
+        return '(' + diff + ')\n'
 
+      for i in [len-7 ... len]
+        message += (dayInfoArray[i].getDayData().date.split('-')[2] + ' ')
+        # fire
+        if dayInfoArray[i].getDayData().dateCnt is '0'
+          message += ':fire:     '
+          message += trendLastWeek()
+        else
+          for j in [1 .. dayInfoArray[i].getDayData().dateCnt]
+            if j <= 5
+              message += ':seedling:'
+            else if j <= 10
+              message += ':palm_tree:'
+            else if j <= 15
+              message += ':blossom:'
+            else if j <= 20
+              message += ':hibiscus:'
+          if ~~dayInfoArray[i].getDayData().dateCnt >= 20
+            message += '・・・'
 
+          message += '     '
+          message += trendLastWeek()
+
+      callback()
+  ], () ->
+    message = message.replace /\s+$/, ''
+    mainCallBack(message)
+  )
 
 module.exports = (robot) ->
-  date  = new Date
-  today = date.getFullYear().toString() + ('0' + (date.getMonth() + 1).toString()).slice(-2) + ('0' + date.getDate().toString()).slice(-2)
-
-  parseContributions(robot, ()->)
+  parseContributions(robot, () ->)
 
   # notification   
-  new cron '00 00 4,15,21,23 * * *', () =>
+  new cron '00 00 15,21,23 * * *', () =>
     parseContributions(robot, ()->
-      # if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is 0
-      #   robot.send {room: '#bot-debug'},  "Please grow grass :("
-      # test
-      if dayInfoArray[0].getDayData().dateCnt is '0'
+      if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is 0
         robot.send {room: '#bot-debug'},  "Please grow grass :("
     )
   , null, true, 'Asia/Tokyo'
 
+  # base information
   robot.hear /info$/i, (msg) ->
     msg.send ">>> Year of contributions: #{baseInfoObj.all} total #{baseInfoObj.allPeriod}\nLongest streak: #{baseInfoObj.longestStreak} days\nCurrent streak: #{baseInfoObj.currentStreak} days #{baseInfoObj.currentStreakPeriod}"
 
+  # trend of this week
+  robot.hear /trend$/i, (msg) ->
+    trendThisWeek((str) ->
+      msg.send str
+    )
+
+  # refresh data
   robot.hear /reload$/i, (msg) ->
     parseContributions(robot, ()->
       msg.send "Update complete"
     )
+
+  ###
+  robot.hear /t$/i, (msg) ->
+    contributionsCalendar((str) ->
+      msg.send str
+    )
+  ###
