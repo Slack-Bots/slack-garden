@@ -86,6 +86,7 @@ trendThisWeek = (mainCallBack) ->
     (callback) ->
       len = dayInfoArray.length
       message += ">>>   #{dayInfoArray[len-7].getDayData().date} - #{dayInfoArray[len-1].getDayData().date}  (difference with last week)\n"
+      message += '------------------------------------------------------\n'
       trendLastWeek = () ->
         diff = ~~dayInfoArray[i].getDayData().dateCnt - ~~dayInfoArray[i-7].getDayData().dateCnt
         if diff > 0
@@ -120,13 +121,26 @@ trendThisWeek = (mainCallBack) ->
     mainCallBack(message)
   )
 
+contributionsCalendar = (mainCallBack) ->
+  # emoji list
+  # less 🔥(:fire:) -> 🌱(:seedling:) -> 🌿(:herb:) -> 🌴(:palm_tree:) -> (:deciduous_tree:) more
+  # normal
+  # less □ -> ◇ -> ◆ -> ■ more
+
+  async.waterfall( [
+    (callback) ->
+      callback()
+  ], () ->
+    mainCallBack("")
+  )
+
 module.exports = (robot) ->
   parseContributions(robot, () ->)
 
   # notification   
   new cron '00 00 15,21,23 * * *', () =>
     parseContributions(robot, ()->
-      if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is 0
+      if dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0'
         robot.send {room: '#bot-debug'},  "Please grow grass :("
     )
   , null, true, 'Asia/Tokyo'
@@ -144,7 +158,7 @@ module.exports = (robot) ->
   # refresh data
   robot.hear /reload$/i, (msg) ->
     parseContributions(robot, ()->
-      msg.send "Update complete"
+      msg.send "update complete!"
     )
 
   ###
