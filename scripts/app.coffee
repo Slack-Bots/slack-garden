@@ -5,6 +5,9 @@ async        = require 'async'
 cron         = require('cron').CronJob
 dayInfoArray = []
 baseInfoObj  = {}
+username     = 'abouthiroppy'
+url          = "https://github.com/users/#{username}/contributions"
+
 
 class dayInfo
   constructor:(day) ->
@@ -19,9 +22,6 @@ class dayInfo
 parseContributions = (robot,mainCallBack) ->
   async.waterfall( [
     (callback) ->
-      username = "abouthiroppy"
-      url      = "https://github.com/users/#{username}/contributions"
-
       robot.http(url).get() (err, res, body) ->
         $ = cheerio.load body
         dayInfoArray = []
@@ -126,6 +126,7 @@ contributionsCalendar = (mainCallBack) ->
   # less 🔥(:fire:) -> 🌱(:seedling:) -> 🌿(:herb:) -> 🌴(:palm_tree:) -> (:deciduous_tree:) more
   # normal
   # less □ -> ◇ -> ◆ -> ■ more
+
 
   async.waterfall( [
     (callback) ->
