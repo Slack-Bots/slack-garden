@@ -18,8 +18,8 @@ This bot is used in slack.
 ## Install and Setting
 1. `$ git clone git@github.com:Slack-Bots/slack-garden.git`  
 2. `$ npm install`  
-3. change a value of 'username'(the 10 line) in 'scripts/app.coffee'  
-username = 'your name'  
+3. change a value of 'username'(the 10 line) in `scripts/app.coffee`  
+`username = 'your name'`  
 4. set Integrations of [Slack](https://slack.com/) and add Hubot  
 5. deploy to [Heroku](https://www.heroku.com/) or others  
 6. set options of Heroku  
