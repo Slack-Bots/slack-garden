@@ -86,7 +86,7 @@ trendThisWeek = (mainCallBack) ->
     (callback) ->
       len = dayInfoArray.length
       message += ">>>   #{dayInfoArray[len-7].getDayData().date} - #{dayInfoArray[len-1].getDayData().date}  (difference with last week)\n"
-      message += '------------------------------------------------------\n'
+      message += '-----------------------------------------------------------------------------------------\n'
       trendLastWeek = () ->
         diff = ~~dayInfoArray[i].getDayData().dateCnt - ~~dayInfoArray[i-7].getDayData().dateCnt
         if diff > 0
@@ -122,17 +122,50 @@ trendThisWeek = (mainCallBack) ->
   )
 
 contributionsCalendar = (mainCallBack) ->
-  # emoji list
-  # less 🔥(:fire:) -> 🌱(:seedling:) -> 🌿(:herb:) -> 🌴(:palm_tree:) -> (:deciduous_tree:) more
-  # normal
-  # less □ -> ◇ -> ◆ -> ■ more
-
+  # color
+  # less #eeeeee -> #d6e685 -> #8cc665 -> #44a340 -> #1e6823 more
+  # icon
+  # less  ∴ -> ○ -> ⦿ -> ◆ -> ★ more
 
   async.waterfall( [
     (callback) ->
-      callback()
-  ], () ->
-    mainCallBack("")
+      calendarArray = []
+      day = new Date(dayInfoArray[0].getDayData().date)
+      day = day.getDay()
+      for d in [0 ... day]
+        calendarArray.push '`※`'
+
+      for v, i in dayInfoArray
+        switch v.getDayData().color
+          when '#eeeeee'
+            calendarArray.push '`∴`'
+          when '#d6e685'
+            calendarArray.push '`◯`'
+          when '#8cc665'
+            calendarArray.push '`◎`'
+          when '#44a340'
+            calendarArray.push '`◆`'
+          when '#1e6823'
+            calendarArray.push '`★`'
+      callback null, calendarArray
+    ,
+    (arr, callback) ->
+      lines = ['','','','','','','']
+      days = ['`S`','`M`','`T`','`W`','`T`','`F`','`S`']
+      message = ""
+      message += '>>> --- _*Contributions*_ --- \n'
+      for v, i in arr
+        if i < 7
+          lines[i] += (days[i] + ' ')
+          lines[i] += (arr[i] + ' ')
+        else
+          lines[i%7] += (arr[i] + ' ')
+      for v in lines
+        message += (v + '\n')
+      message += '`Less   ∴  <  ◯  <  ◎  <  ◆  <  ★   More `\n'
+      callback null, arr, message
+  ], (err, arr, message) ->
+    mainCallBack message
   )
 
 module.exports = (robot) ->
@@ -162,9 +195,7 @@ module.exports = (robot) ->
       msg.send "update complete!"
     )
 
-  ###
-  robot.hear /t$/i, (msg) ->
+  robot.hear /cal$/i, (msg) ->
     contributionsCalendar((str) ->
       msg.send str
     )
-  ###
