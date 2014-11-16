@@ -172,12 +172,13 @@ module.exports = (robot) ->
   parseContributions(robot, () ->)
 
   # notification   
-  new cron '00 05 16,21,23 * * *', () =>
+  new cron '00 00 15,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
       today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2)
+
       if dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today
-        robot.send {room: '#bot-debug'},  "Please grow grass :("
+        robot.reply {room: '#bot-debug'},  "*Please grow grass*:("
     )
   , null, true, 'Asia/Tokyo'
 
