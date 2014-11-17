@@ -22,7 +22,7 @@ This bot is used in slack.
 
 ## Install and Setting
 1. `$ git clone git@github.com:Slack-Bots/slack-garden.git`  
-2. change a value of 'username'(9 line) and `channel`(10 line) in `info.json`   
+2. change a value of `username` and `channel` in `info.json`   
 ```
 {
   "username": "your username",
