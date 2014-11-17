@@ -7,7 +7,7 @@ dayInfoArray = []
 baseInfoObj  = {}
 ######################## please change value################################
 username     = 'abouthiroppy'
-channel      = '#bot-debug'
+channel      = '#garden'
 ############################################################################
 url          = "https://github.com/users/#{username}/contributions"
 
@@ -175,12 +175,12 @@ module.exports = (robot) ->
   parseContributions(robot, () ->)
 
   # notification   
-  new cron '00 30 17,21,23 * * *', () =>
+  new cron '00 00 18,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
       today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2)
 
-      if dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today
+      if (dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today) or ((dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0') and (dayInfoArray[dayInfoArray.length-1].getDayData().date is today))
         robot.send {room: channel},  "*Please grow grass*:("
     )
   , null, true, 'Asia/Tokyo'
