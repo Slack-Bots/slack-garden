@@ -5,7 +5,9 @@ async        = require 'async'
 cron         = require('cron').CronJob
 dayInfoArray = []
 baseInfoObj  = {}
+######################## please change your name ################################
 username     = 'abouthiroppy'
+channel      = '#debug-bot'
 url          = "https://github.com/users/#{username}/contributions"
 
 
@@ -153,7 +155,7 @@ contributionsCalendar = (mainCallBack) ->
       lines = ['','','','','','','']
       days = ['`S`','`M`','`T`','`W`','`T`','`F`','`S`']
       message = ""
-      message += '>>> --- _*Contributions*_ --- \n'
+      message += '----- _*Contributions*_ ----- \n'
       for v, i in arr
         if i < 7
           lines[i] += (days[i] + ' ')
@@ -172,12 +174,13 @@ module.exports = (robot) ->
   parseContributions(robot, () ->)
 
   # notification   
-  new cron '00 05 16,21,23 * * *', () =>
+  new cron '00 20 17,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
       today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2)
+
       if dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today
-        robot.send {room: '#bot-debug'},  "Please grow grass :("
+        robot.send {room: channel},  "*Please grow grass*:("
     )
   , null, true, 'Asia/Tokyo'
 
@@ -197,7 +200,14 @@ module.exports = (robot) ->
       msg.send "update complete!"
     )
 
+  # contributions calendar
   robot.hear /cal$/i, (msg) ->
     contributionsCalendar((str) ->
       msg.send str
     )
+
+  # url
+  robot.hear /url$/i, (msg) ->
+    contributionsCalendar((str) ->
+      msg.send "https://github.com/#{username}"
+    )  
