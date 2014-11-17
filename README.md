@@ -22,22 +22,19 @@ This bot is used in slack.
 
 ## Install and Setting
 1. `$ git clone git@github.com:Slack-Bots/slack-garden.git`  
-2. change a value of `username` and `channel` in `info.json`   
-```
-{
-  "username": "your username",
-  "channel" : "channel name of Slack"
-}
-```
 3. set Integrations of [Slack](https://slack.com/) and add Hubot  
 4. deploy to [Heroku](https://www.heroku.com/) or others  
 5. set options of Heroku  
-`$ heroku config:add HUBOT_SLACK_TOKEN=xxxxxxxxxxxxxx`  
-`$ heroku config:add HEROKU_URL=<your application url>`  
-`$ heroku config:add HEROKU_SLACK_BOTNAME=Landscaper`  
-`$ heroku config:add HUBOT_SLACK_CHANNELS=<channel name>`  
-`$ heroku config:add HUBOT_SLACK_TEAM=<your team name>`    
-`$ heroku config:add HUBOT_SLACK_CHANNELMODE=whitelist`  
+```
+$ heroku config:add NODE_USERNAME=<hogehoge>  
+$ heroku config:add NODE_CHANNEL=<#piyopiyo>  
+$ heroku config:add HUBOT_SLACK_TOKEN=<xxxxxxxxxxxxxx>  
+$ heroku config:add HEROKU_URL=<your application url>  
+$ heroku config:add HEROKU_SLACK_BOTNAME=Landscaper  
+$ heroku config:add HUBOT_SLACK_CHANNELS=<channel name>  
+$ heroku config:add HUBOT_SLACK_TEAM=<your team name>    
+$ heroku config:add HUBOT_SLACK_CHANNELMODE=whitelist  
+```
 
 ## License
 MIT  
