@@ -2,15 +2,14 @@
 
 cheerio      = require 'cheerio'
 async        = require 'async'
+fs           = require 'fs'
 cron         = require('cron').CronJob
 dayInfoArray = []
 baseInfoObj  = {}
-######################## please change value################################
-username     = 'abouthiroppy'
-channel      = '#garden'
-############################################################################
-url          = "https://github.com/users/#{username}/contributions"
-
+username     = ''
+channel      = ''
+infoFilePath = '../info.json'
+url          = ''
 
 class dayInfo
   constructor:(day) ->
@@ -172,7 +171,21 @@ contributionsCalendar = (mainCallBack) ->
   )
 
 module.exports = (robot) ->
-  parseContributions(robot, () ->)
+  async.waterfall( [
+    (callback) ->
+      try
+        json     = require infoFilePath
+        username = json.username
+        channel  = json.channel 
+        url      = "https://github.com/users/#{username}/contributions"
+      catch e
+        robot.send {room: '#general'},  "Please touch 'slack-garden/info.json'"
+        return
+      callback()
+    ,
+    (callback) ->
+      parseContributions(robot, () ->)
+  ])
 
   # notification   
   new cron '00 00 18,21,23 * * *', () =>
