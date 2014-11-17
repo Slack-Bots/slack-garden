@@ -5,9 +5,10 @@ async        = require 'async'
 cron         = require('cron').CronJob
 dayInfoArray = []
 baseInfoObj  = {}
-######################## please change your name ################################
+######################## please change value################################
 username     = 'abouthiroppy'
-channel      = '#debug-bot'
+channel      = '#bot-debug'
+############################################################################
 url          = "https://github.com/users/#{username}/contributions"
 
 
@@ -174,7 +175,7 @@ module.exports = (robot) ->
   parseContributions(robot, () ->)
 
   # notification   
-  new cron '00 20 17,21,23 * * *', () =>
+  new cron '00 30 17,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
       today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2)
