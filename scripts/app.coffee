@@ -8,7 +8,6 @@ dayInfoArray = []
 baseInfoObj  = {}
 username     = ''
 channel      = ''
-infoFilePath = '../info.json'
 url          = ''
 
 class dayInfo
@@ -171,15 +170,15 @@ contributionsCalendar = (mainCallBack) ->
   )
 
 module.exports = (robot) ->
+  console.log process.env.XDG_VTN
   async.waterfall( [
     (callback) ->
-      try
-        json     = require infoFilePath
-        username = json.username
-        channel  = json.channel 
-        url      = "https://github.com/users/#{username}/contributions"
-      catch e
-        robot.send {room: '#general'},  "Please touch 'slack-garden/info.json'"
+      username = process.env.NODE_USERNAME
+      channel  = process.env.NODE_CHANNEL
+      url      = "https://github.com/users/#{username}/contributions"
+
+      if (username is undefined) or (channel is undefined)
+        robot.send {room: '#general'},  "Please set the environment variable of heroku :("
         return
       callback()
     ,
@@ -191,9 +190,12 @@ module.exports = (robot) ->
   new cron '00 00 18,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
-      today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2)
+      today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + 
+        ('0' + date.getDate().toString()).slice(-2)
 
-      if (dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today) or ((dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0') and (dayInfoArray[dayInfoArray.length-1].getDayData().date is today))
+      if (dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today) or 
+        ((dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0') and 
+          (dayInfoArray[dayInfoArray.length-1].getDayData().date is today))
         robot.send {room: channel},  "*Please grow grass*:("
     )
   , null, true, 'Asia/Tokyo'
