@@ -1,3 +1,12 @@
+#
+# Commands:
+#   hubot info - Reply user information
+#   hubot reload - Parse contributions
+#   hubot trend - Show trends
+#   hubot cal - Show contribution calendar
+#   hubot url - Reply the repository's url
+#
+
 'use strict'
 
 cheerio      = require 'cheerio'
