@@ -179,7 +179,6 @@ contributionsCalendar = (mainCallBack) ->
   )
 
 module.exports = (robot) ->
-  console.log process.env.XDG_VTN
   async.waterfall( [
     (callback) ->
       username = process.env.NODE_USERNAME
@@ -221,6 +220,10 @@ module.exports = (robot) ->
 
   # refresh data
   robot.hear /reload$/i, (msg) ->
+    username = process.env.NODE_USERNAME
+    channel  = process.env.NODE_CHANNEL
+    url      = "https://github.com/users/#{username}/contributions"
+    
     parseContributions(robot, ()->
       msg.send "update complete!"
     )
