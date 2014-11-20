@@ -197,7 +197,6 @@ module.exports = (robot) ->
   # update every 30 minutes
   new cron '00 */30 * * * *', () =>
     parseContributions(robot, () ->)
-    robot.send {room: channel},  "debug for Automatic update function"
   , null, true, 'Asia/Tokyo'
 
   # notification   
