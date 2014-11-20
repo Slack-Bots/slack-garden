@@ -194,6 +194,12 @@ module.exports = (robot) ->
       parseContributions(robot, () ->)
   ])
 
+  # update every 30 minutes
+  new cron '00 */30 * * * *', () =>
+    parseContributions(robot, () ->)
+    robot.send {room: channel},  "debug for Automatic update function"
+  , null, true, 'Asia/Tokyo'
+
   # notification   
   new cron '00 00 18,21,23 * * *', () =>
     parseContributions(robot, ()->
@@ -223,7 +229,7 @@ module.exports = (robot) ->
     username = process.env.NODE_USERNAME
     channel  = process.env.NODE_CHANNEL
     url      = "https://github.com/users/#{username}/contributions"
-    
+
     parseContributions(robot, ()->
       msg.send "update complete!"
     )
