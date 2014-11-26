@@ -107,7 +107,7 @@ trendThisWeek = (mainCallBack) ->
         message += (dayInfoArray[i].getDayData().date.split('-')[2] + ' ')
         # fire
         if dayInfoArray[i].getDayData().dateCnt is '0'
-          message += ':fire:     '
+          message += ':fire:     0'
           message += trendLastWeek()
         else
           for j in [1 .. dayInfoArray[i].getDayData().dateCnt]
@@ -119,10 +119,12 @@ trendThisWeek = (mainCallBack) ->
               message += ':blossom:'
             else if j <= 20
               message += ':hibiscus:'
+
           if ~~dayInfoArray[i].getDayData().dateCnt >= 20
             message += '・・・'
 
           message += '     '
+          message += " #{dayInfoArray[i].getDayData().dateCnt}"
           message += trendLastWeek()
 
       callback()
