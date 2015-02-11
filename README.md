@@ -27,13 +27,9 @@ This bot is used in slack.
 5. set options of Heroku  
 ```
 $ heroku config:add NODE_USERNAME=<hogehoge>  
-$ heroku config:add NODE_CHANNEL=<#piyopiyo>  
+$ heroku config:add NODE_CHANNEL=<piyopiyo>  
 $ heroku config:add HUBOT_SLACK_TOKEN=<xxxxxxxxxxxxxx>  
 $ heroku config:add HEROKU_URL=<your application url>  
-$ heroku config:add HEROKU_SLACK_BOTNAME=Landscaper  
-$ heroku config:add HUBOT_SLACK_CHANNELS=<channel name>  
-$ heroku config:add HUBOT_SLACK_TEAM=<your team name>    
-$ heroku config:add HUBOT_SLACK_CHANNELMODE=whitelist  
 ```
 
 ## License

@@ -23,7 +23,7 @@ class dayInfo
   constructor:(day) ->
     @dayObj = {}
     @dayObj.date    = day.attr 'data-date'
-    @dayObj.dateCnt = day.attr 'data-count' 
+    @dayObj.dateCnt = day.attr 'data-count'
     @dayObj.color   = day.attr 'fill'
   getDayData: ->
     return @dayObj
@@ -81,7 +81,7 @@ trendThisWeek = (mainCallBack) ->
   # emoji list
   # less 🔥(:fire:) -> 🌱(:seedling:) -> 🌴(:palm_tree:) -> 🌼(:blossom:) -> 🌺(:hibiscus:) more
   ### e.g
-  ---  2014-11-09 - 2014-11-15  ---  
+  ---  2014-11-09 - 2014-11-15  ---
   09 🌱🌱🌱🌱     (+3)
   10 🌱     (-2)
   11 🌱🌱🌱🌱🌱     (-7)
@@ -89,7 +89,7 @@ trendThisWeek = (mainCallBack) ->
   13 🌱🌱🌱🌱🌱🌴🌴🌴🌴🌴🌼🌼🌼🌼🌼🌺🌺🌺     (+15)
   14 🌱🌱     (-6)
   15 🌱🌱🌱🌱🌱     (-2)
-  ### 
+  ###
 
   message = ""
   async.waterfall( [
@@ -188,7 +188,7 @@ module.exports = (robot) ->
       url      = "https://github.com/users/#{username}/contributions"
 
       if (username is undefined) or (channel is undefined)
-        robot.send {room: '#general'},  "Please set the environment variable of heroku :("
+        robot.send {room: 'general'},  "Please set the environment variable of heroku :("
         return
       callback()
     ,
@@ -201,15 +201,15 @@ module.exports = (robot) ->
     parseContributions(robot, () ->)
   , null, true, 'Asia/Tokyo'
 
-  # notification   
+  # notification
   new cron '00 00 18,21,23 * * *', () =>
     parseContributions(robot, ()->
       date = new Date
-      today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + 
+      today = date.getFullYear().toString() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' +
         ('0' + date.getDate().toString()).slice(-2)
 
-      if (dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today) or 
-        ((dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0') and 
+      if (dayInfoArray[dayInfoArray.length-1].getDayData().date isnt today) or
+        ((dayInfoArray[dayInfoArray.length-1].getDayData().dateCnt is '0') and
           (dayInfoArray[dayInfoArray.length-1].getDayData().date is today))
         robot.send {room: channel},  "*Please grow grass*:("
     )
@@ -245,4 +245,4 @@ module.exports = (robot) ->
   robot.hear /url$/i, (msg) ->
     contributionsCalendar((str) ->
       msg.send "https://github.com/#{username}"
-    )  
+    )
