@@ -19,7 +19,7 @@
     "hubot-rules": "~0.1.0",
     "hubot-scripts": "~2.5.16",
     "hubot-shipit": "~0.1.1",
-    "hubot-slack": "~2.2.0",
+    "hubot-slack": "~3.2.1",
     "hubot-youtube": "~0.1.2",
     "time": "~0.11.0",
     "async": "~0.9.0"
